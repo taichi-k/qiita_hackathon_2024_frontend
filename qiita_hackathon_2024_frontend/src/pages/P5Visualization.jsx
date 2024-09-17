@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useEffect, useState } from 'react';
 import SketchComponent from "@/component/sketch0";
 
