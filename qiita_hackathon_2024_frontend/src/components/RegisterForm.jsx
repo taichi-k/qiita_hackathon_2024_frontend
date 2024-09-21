@@ -140,7 +140,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>ニックネーム</FormLabel>
               <FormControl>
-                <Input placeholder="ニックネーム" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="ニックネーム" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
