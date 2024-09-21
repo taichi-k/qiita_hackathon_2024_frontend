@@ -60,12 +60,12 @@ const Lobby = ({ spaces }) => {
   return (
     <div className="bg-gradient-to-br from-neutral-50 to-amber-50">
       <Header></Header>
-      <div className="px-auto w-full py-auto h-full pt-8 pb-32">
+      <div className="px-auto w-full py-auto h-full pt-8 pb-40 md:pb-32">
         <div className="mx-auto w-fit">
           <div className={`mb-8 japanese ${myfont.className}`}>
             空いている席をクリックして、作業を始めましょう。
           </div>
-          <div className="tables grid grid-cols-2 gap-24">
+          <div className="tables grid grid-cols-1 md:grid-cols-2 gap-24 place-items-center">
             {spaces.map((space) => {
               return (
                 <div className={"oneTable grid grid-cols-2 w-72"} key={space.room_id}>
