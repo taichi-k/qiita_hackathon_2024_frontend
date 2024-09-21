@@ -19,6 +19,13 @@ import { Input } from "@/components/ui/input"
 import axios from "axios"
 import UserContext from '../../context/user_context';
 
+import { Zen_Maru_Gothic } from 'next/font/google'
+
+const myfont = Zen_Maru_Gothic({
+  weight: ["400"],
+  subsets: ["latin"]
+});
+
 export function RegisterForm() {
   const { login } = useContext(UserContext);
   const router = useRouter();
@@ -79,7 +86,7 @@ export function RegisterForm() {
 
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${myfont.className}`}>
         <FormField
           control={form.control}
           name="email"
@@ -87,7 +94,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>メールアドレス</FormLabel>
               <FormControl>
-                <Input placeholder="メールアドレス" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="メールアドレス" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -100,7 +107,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>パスワード</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="パスワード" {...field} />
+                <Input className={"border border-yellow-900 shadow"} type="password" placeholder="パスワード" {...field} />
               </FormControl>
               <FormDescription>
                 8文字以上
@@ -112,7 +119,7 @@ export function RegisterForm() {
         <FormItem>
           <FormLabel>プロフィールアイコン</FormLabel>
           <FormControl>
-            <Input type="file" accept='image/*' onChange={handleIconChange} />
+            <Input className={"border border-yellow-900 shadow"} type="file" accept='image/*' onChange={handleIconChange} />
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -124,7 +131,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>勉強中の内容</FormLabel>
               <FormControl>
-                <Input placeholder="興味" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="興味" {...field} />
               </FormControl>
               <FormDescription>
                 カンマ区切り
@@ -140,7 +147,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>XのID</FormLabel>
               <FormControl>
-                <Input placeholder="XのID" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="XのID" {...field} />
               </FormControl>
               <FormDescription>
                 登録したい人だけ
@@ -149,7 +156,7 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">新規登録</Button>
+        <Button className="font-bold" type="submit">新規登録</Button>
       </form>
     </Form>
   )

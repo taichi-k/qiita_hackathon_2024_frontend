@@ -1,4 +1,12 @@
 import Logo from "../Logo";
+import ServiceName from "../ServiceName";
+
+import { Zen_Maru_Gothic } from 'next/font/google'
+
+const myfont = Zen_Maru_Gothic({
+  weight: ["400"],
+  subsets: ["latin"]
+});
 
 export default function Footer() {
 
@@ -7,12 +15,13 @@ export default function Footer() {
         <div class="container px-5 py-8 mx-auto flex items-center sm:flex-row flex-col">
             <a class="flex title-font font-medium items-center md:justify-start justify-center text-gray-900">
             <Logo></Logo>
-            <span class="ml-3 text-xl" id="generated-id-1726901987028-n7hsvm0kk">Open Lobby</span>
+            <ServiceName></ServiceName>
             </a>
-            <p class="text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4" id="generated-id-1726901987028-akknil9sk">© 2024 Open Lobby —
-            <a href="/" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank" id="generated-id-1726901987028-qwh1ijkj9">コスギーズ</a>
+            <p className={`text-sm text-gray-500 sm:ml-4 sm:pl-4 sm:border-l-2 sm:border-gray-200 sm:py-2 sm:mt-0 mt-4 ${myfont.className}`}>
+                © 2024 気まぐれ自習室 —
+                <a href="/" class="text-gray-600 ml-1" rel="noopener noreferrer" target="_blank">コスギーズ</a>
             </p>
-            <span class="inline-flex sm:ml-auto sm:mt-0 mt-4 justify-center sm:justify-start">
+            <span class="inline-flex sm:ml-4 sm:mt-0 mt-4 justify-center sm:justify-start">
             <a class="text-gray-500">
                 <svg fill="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" class="w-5 h-5" viewBox="0 0 24 24">
                 <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"></path>
