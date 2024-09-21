@@ -26,6 +26,10 @@ function AppWithRouteWatcher({ Component, pageProps }: { Component: NextComponen
   const { userId } = useContext(UserContext); // UserProvider から userId を取得
 
   useEffect(() => {
+    if (userId == undefined) {
+      return;
+    }
+
     // ログインされていない場合かつlogin系ページ以外にアクセスされた場合は、ルートページにリダイレクト
     if (!userId && !['/', '/login', '/register'].includes(router.pathname)) {
       router.replace('/');

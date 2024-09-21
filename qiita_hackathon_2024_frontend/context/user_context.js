@@ -5,13 +5,15 @@ const UserContext = createContext();
 
 // Providerを作成
 export function UserProvider({ children }) {
-  const [userId, setUserId] = useState(null);
+  const [userId, setUserId] = useState(undefined);
 
   useEffect(() => {
     // localStorageからユーザーIDを取得して復元
     const savedUserId = localStorage.getItem('userId');
     if (savedUserId) {
       setUserId(savedUserId);
+    } else {
+      setUserId(null);
     }
   }, []);
 

@@ -5,7 +5,7 @@
 import Header from "@/components/tailblocks/Header";
 import UserContext from '../../context/user_context'; // ユーザーコンテキストのインポート
 import { useRouter } from 'next/router';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useState, useCallback } from 'react';
 import axios from "axios"
 import { Zen_Kaku_Gothic_New, Rampart_One, Zen_Maru_Gothic, Shippori_Mincho } from 'next/font/google'
 
@@ -14,9 +14,25 @@ const myfont = Zen_Maru_Gothic({
   subsets: ["latin"]
 });
 
-const Lobby = ({ spaces }) => {
-  const { userId } = useContext(UserContext); // コンテキストからユーザーIDを取得
+const Lobby = ({ prop_spaces }) => {
+  const { userId } = useContext(UserContext);
+  const [spaces, setSpaces] = useState(prop_spaces);
   const router = useRouter();
+
+  useEffect(() => {
+    const fetchSpaces = async () => {
+      const res = await fetch("https://miyablo.sakura.ne.jp/kosugiiz/spaces", {
+        cache: "no-store",
+      });
+      const resJson = await res.json();
+      const spaces = resJson.data;
+    
+      setSpaces(spaces);
+    };
+
+    const intervalId = setInterval(fetchSpaces, 5000); // 5000ms(=5s)ごとにデータを取得
+    return () => clearInterval(intervalId); // コンポーネントがアンマウントされるときにポーリングを停止
+  }, []); 
 
   function checkUserExists(users, position) {
     for (const user of users) {
@@ -26,7 +42,7 @@ const Lobby = ({ spaces }) => {
   }
 
   // APIリクエストを送信する関数
-  const handleLinkClick = async (spaceId, roomId, position) => {
+  const handleLinkClick = useCallback(async (spaceId, roomId, position) => {
     if (!userId) {
       console.error("User ID not found");
       return;
@@ -51,8 +67,7 @@ const Lobby = ({ spaces }) => {
     } catch (error) {
       console.error("Error joining space:", error);
     }
-  };
-
+  });
   
   const truncate = (input) =>
     input.length > 15 ? `${input.substring(0, 15)}...` : input;
@@ -115,7 +130,7 @@ export const getServerSideProps = async () => {
 
   return {
     props: {
-      spaces,
+      prop_spaces: spaces,
     },
   };
 };

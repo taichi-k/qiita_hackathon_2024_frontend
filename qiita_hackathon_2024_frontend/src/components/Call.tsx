@@ -58,7 +58,9 @@ function Videos(props: { channelName: string; AppID: string }) {
     if (currentUID) {
       console.log("currentUIDを使ってAPIを呼び出します:", currentUID);
       setUidToUserSpace(userId, currentUID).then((profile) => {
-        setCurrentUserProfile(profile); // プロフィールを設定
+        const convertedProfile = profile;
+        convertedProfile.twitter_id = profile.twitter_screenname;
+        setCurrentUserProfile(convertedProfile); // プロフィールを設定
       });
     }
   }, [currentUID]); // currentUID が変更されたときに再度呼び出される
