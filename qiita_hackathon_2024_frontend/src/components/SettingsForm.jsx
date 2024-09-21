@@ -1,8 +1,10 @@
 /* eslint-disable */
 
 "use client"
- 
+
 import { useForm } from "react-hook-form"
+import { useState, useContext, useEffect } from "react"
+import { useRouter } from 'next/router'
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -14,25 +16,103 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { useRouter } from "next/router"
- 
-export function SettingsForm() {
-  const router = useRouter()
+import axios from "axios"
+import UserContext from '../../context/user_context';
 
+export function SettingsForm() {
+  const { userId } = useContext(UserContext); // userIdをコンテキストから取得
+  const router = useRouter();
   const form = useForm({
     defaultValues: {
-      // TODO: ここで既存の値を取得する
       email: "",
       password: "",
+      interests: "",
+      twitter: "",
+      nickname: "",
     },
   })
- 
-  function onSubmit(data) {
-    // submit時
-    console.log(`onSubmit: ${data}`)
-    router.replace("/lobby")
+
+  const [iconBase64, setIconBase64] = useState(null)
+
+  // 画像ファイルをBase64に変換
+  const handleIconChange = (e) => {
+    const file = e.target.files[0]
+    if (file) {
+      const reader = new FileReader()
+      reader.onloadend = () => {
+        setIconBase64(reader.result)
+      }
+      reader.readAsDataURL(file)
+    }
   }
- 
+
+  // ページ描画時にAPIからユーザーデータを取得して初期値を設定
+  useEffect(() => {
+    const fetchUserData = async () => {
+      try {
+        const response = await axios.get(`https://miyablo.sakura.ne.jp/kosugiiz/user/${userId}`, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+
+        if (response.data.status !== '200') {
+          throw new Error(response.data.message);
+        }
+
+        const userData = response.data.data;
+        console.log("ユーザー情報取得成功:", userData);
+        // APIで取得したデータをフォームの初期値として設定
+        form.reset({
+          email: userData.email,
+          nickname: userData.nickname,
+          password: "", // パスワードはセキュリティのために空にしておく
+          interests: userData.interested_in,
+          twitter: userData.twitter_screenname,
+        });
+        // アイコンも更新
+        setIconBase64(userData.icon);
+      } catch (error) {
+        console.error("ユーザー情報取得エラー:", error);
+      }
+    };
+
+    if (userId) {
+      fetchUserData(); // userId が存在する場合にのみデータを取得
+    }
+  }, [userId, form]);
+
+  async function onSubmit(data) {
+    try {
+      const formData = {
+        user: {
+          email: data.email,
+          password: data.password,
+          icon: iconBase64 || '',
+          nickname: data.nickname,
+          interested_in: data.interests,
+          twitter_screenname: data.twitter,
+        }
+      }
+
+      // POSTリクエストでデータを送信
+      const response = await axios.patch(`https://miyablo.sakura.ne.jp/kosugiiz/user/${userId}`, formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response)
+      if (response.data.status !== '200') {
+        throw new Error(response.data.message)
+      } else {
+        console.log("更新成功:")
+        router.replace('/lobby');
+      }
+    } catch (error) {
+      console.error("登録エラー:", error)
+    }
+  }
+
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
@@ -43,7 +123,7 @@ export function SettingsForm() {
             <FormItem>
               <FormLabel>メールアドレス</FormLabel>
               <FormControl>
-                <Input placeholder="****@****" {...field} />
+                <Input placeholder="メールアドレス" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -56,7 +136,7 @@ export function SettingsForm() {
             <FormItem>
               <FormLabel>パスワード</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="****" {...field} />
+                <Input type="password" placeholder="パスワード" {...field} />
               </FormControl>
               <FormDescription>
                 8文字以上
@@ -65,27 +145,41 @@ export function SettingsForm() {
             </FormItem>
           )}
         />
+        <FormItem>
+          <FormLabel>プロフィールアイコン</FormLabel>
+          <FormControl>
+            <Input type="file" accept='image/*' onChange={handleIconChange} />
+          </FormControl>
+          <FormMessage />
+        </FormItem>
+        <img 
+          src={iconBase64} 
+          alt='input_icon' 
+          className="w-48 h-48 object-cover"
+        />
+
         <FormField
           control={form.control}
-          name="icon"
+          name="nickname"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>プロフィールアイコン</FormLabel>
+              <FormLabel>ニックネーム</FormLabel>
               <FormControl>
-                <Input type="file" placeholder="アイコンを選択" {...field} />
+                <Input placeholder="ニックネーム" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
+
         <FormField
           control={form.control}
           name="interests"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>興味があること</FormLabel>
+              <FormLabel>勉強中の内容</FormLabel>
               <FormControl>
-                <Input placeholder="ピアノ,ギター" {...field} />
+                <Input placeholder="興味" {...field} />
               </FormControl>
               <FormDescription>
                 カンマ区切り
@@ -99,7 +193,7 @@ export function SettingsForm() {
           name="twitter"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>SNSアカウント（X）</FormLabel>
+              <FormLabel>XのID</FormLabel>
               <FormControl>
                 <Input placeholder="XのID" {...field} />
               </FormControl>
