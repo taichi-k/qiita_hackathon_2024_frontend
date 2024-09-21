@@ -2,7 +2,6 @@
 "use client"
  
 import { useForm } from "react-hook-form"
-import { useRouter } from "next/router"
 import { Button } from "@/components/ui/button"
 import {
   Form,
@@ -14,12 +13,14 @@ import {
   FormMessage,
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import { useRouter } from "next/router"
  
-export function RegisterForm() {
+export function SettingsForm() {
   const router = useRouter()
 
   const form = useForm({
     defaultValues: {
+      // TODO: ここで既存の値を取得する
       email: "",
       password: "",
     },
@@ -41,7 +42,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>メールアドレス</FormLabel>
               <FormControl>
-                <Input placeholder="メールアドレス" {...field} />
+                <Input placeholder="****@****" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -54,7 +55,7 @@ export function RegisterForm() {
             <FormItem>
               <FormLabel>パスワード</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="パスワード" {...field} />
+                <Input type="password" placeholder="****" {...field} />
               </FormControl>
               <FormDescription>
                 8文字以上
@@ -81,9 +82,9 @@ export function RegisterForm() {
           name="interests"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>パスワード</FormLabel>
+              <FormLabel>興味があること</FormLabel>
               <FormControl>
-                <Input placeholder="興味" {...field} />
+                <Input placeholder="ピアノ,ギター" {...field} />
               </FormControl>
               <FormDescription>
                 カンマ区切り
@@ -97,7 +98,7 @@ export function RegisterForm() {
           name="twitter"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>パスワード</FormLabel>
+              <FormLabel>SNSアカウント（X）</FormLabel>
               <FormControl>
                 <Input placeholder="XのID" {...field} />
               </FormControl>
@@ -108,7 +109,7 @@ export function RegisterForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">新規登録</Button>
+        <Button type="submit">更新</Button>
       </form>
     </Form>
   )

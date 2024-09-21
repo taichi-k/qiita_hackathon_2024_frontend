@@ -41,7 +41,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>メールアドレス</FormLabel>
               <FormControl>
-                <Input placeholder="メールアドレス" {...field} />
+                <Input placeholder="****@****" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -54,11 +54,8 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>パスワード</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="パスワード" {...field} />
+                <Input type="password" placeholder="****" {...field} />
               </FormControl>
-              <FormDescription>
-                8文字以上
-              </FormDescription>
               <FormMessage />
             </FormItem>
           )}
