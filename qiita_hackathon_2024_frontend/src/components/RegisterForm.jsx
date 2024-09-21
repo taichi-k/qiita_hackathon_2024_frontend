@@ -150,9 +150,9 @@ export function RegisterForm() {
           name="interests"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>勉強中の内容</FormLabel>
+              <FormLabel>自習室で勉強してる事</FormLabel>
               <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="興味" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="例: 数学,IT,音楽" {...field} />
               </FormControl>
               <FormDescription>
                 カンマ区切り
