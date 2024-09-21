@@ -20,6 +20,9 @@ const Lobby = ({spaces}) => {
     }
     return undefined;
   }
+  
+  const truncate = (input) =>
+    input.length > 15 ? `${input.substring(0, 15)}...` : input;
  
   return (
     <div className="bg-gradient-to-br from-neutral-50 to-amber-50">
@@ -27,7 +30,7 @@ const Lobby = ({spaces}) => {
       <div className="px-auto w-full py-auto h-full pt-8 pb-32">
         <div className="mx-auto w-fit">
           <div className={`mb-8 japanese ${myfont.className}`}>
-            空いている席に座って、作業を始めましょう。
+            空いている席をクリックして、作業を始めましょう。
           </div>
           <div className="tables grid grid-cols-2 gap-24">
             {spaces.map((space) => {
@@ -41,9 +44,16 @@ const Lobby = ({spaces}) => {
                     return (
                       targetUser ?
                       // <div className={`w-36 h-44 border-2 rounded border-yellow-900 bg-red-200`}>
-                      <div className={`w-36 h-44 border-2 rounded border-yellow-800 bg-red-200 px-2 py-3`}>
-                        <p className={`font-bold mb-4 ${myfont.className}`}>{targetUser.nickname}</p>
-                        <p className={`font-light text-sm ${myfont.className}`}>{targetUser.interested_in.replaceAll(",", "、")}</p>
+                      <div className={`w-36 h-44 border-2 rounded border-yellow-800 bg-red-200 px-2 py-2`}>
+                        <p className={`font-bold mb-2 ${myfont.className}`}>
+                          {targetUser.nickname}
+                        </p>
+                        <p className={`font-light text-sm mb-4 ${myfont.className}`}>
+                          {truncate(targetUser.interested_in.replaceAll(",", "、"))}
+                        </p>
+                        <div className="text-right w-full pr-1">
+                          <img className={`w-16 h-16 rounded inline`} src={`${targetUser.icon}`} />
+                        </div>
                       </div>
                       :
                       <Link href={`/channel/${space.room_id}`}>
