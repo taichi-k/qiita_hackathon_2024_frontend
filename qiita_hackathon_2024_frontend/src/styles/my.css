@@ -1,3 +1,26 @@
+@font-face {
+  font-family: "noto";
+  src:
+    url("/fonts/noto.otf") format("otf"),
+}
+
 .my_width {
   width: 200px;
+}
+
+.woodBackground {
+  background-image: url("/wood.jpg");
+  background-size: cover;
+}
+
+.japanese_header {
+  font-family: monospace;
+}
+
+.japanese {
+  font-family: "accent";
+}
+
+.welcomeBox {
+  padding-top: 42vh;
 }

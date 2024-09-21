@@ -17,6 +17,15 @@ import { useRouter } from "next/router"
 import axios from "axios"
 import { useContext } from "react"
 import UserContext from '../../context/user_context';
+
+
+import { Zen_Maru_Gothic } from 'next/font/google'
+
+const myfont = Zen_Maru_Gothic({
+  weight: ["400"],
+  subsets: ["latin"]
+});
+
  
 export function LoginForm() {
   const router = useRouter()
@@ -60,7 +69,7 @@ export function LoginForm() {
  
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${myfont.className}`}>
         <FormField
           control={form.control}
           name="email"
@@ -68,7 +77,7 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>メールアドレス</FormLabel>
               <FormControl>
-                <Input placeholder="****@****" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="****@****" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -81,13 +90,13 @@ export function LoginForm() {
             <FormItem>
               <FormLabel>パスワード</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="****" {...field} />
+                <Input className={"border border-yellow-900 shadow"} type="password" placeholder="****" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
           )}
         />
-        <Button type="submit">ログイン</Button>
+        <Button className="" type="submit">ログイン</Button>
       </form>
     </Form>
   )
