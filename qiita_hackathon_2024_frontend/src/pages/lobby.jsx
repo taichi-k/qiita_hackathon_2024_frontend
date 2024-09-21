@@ -53,31 +53,37 @@ const Lobby = ({ spaces }) => {
     }
   };
 
+  
+  const truncate = (input) =>
+    input.length > 15 ? `${input.substring(0, 15)}...` : input;
+ 
   return (
     <div className="bg-gradient-to-br from-neutral-50 to-amber-50">
       <Header></Header>
       <div className="px-auto w-full py-auto h-full pt-8 pb-32">
         <div className="mx-auto w-fit">
           <div className={`mb-8 japanese ${myfont.className}`}>
-            空いている席に座って、作業を始めましょう。
+            空いている席をクリックして、作業を始めましょう。
           </div>
           <div className="tables grid grid-cols-2 gap-24">
             {spaces.map((space) => {
               return (
                 <div className={"oneTable grid grid-cols-2 w-72"} key={space.room_id}>
                   {[...Array(space.maximum).keys()].map((index) => {
-                    let targetUser = checkUserExists(space.users, index);
-                    return targetUser ? (
-                      <div className={`w-36 h-44 border-2 rounded border-yellow-800 bg-red-200 px-2 py-3`}>
-                        {targetUser.icon && (
-                          <img 
-                            src={targetUser.icon} 
-                            alt={`${targetUser.nickname}'s icon`} 
-                            className="w-full h-24 object-cover"
-                          />
-                        )}
-                        <p className={`font-bold mb-4 ${myfont.className}`}>{targetUser.nickname}</p>
-                        <p className={`font-light text-sm ${myfont.className}`}>{targetUser.interested_in.replaceAll(",", "、")}</p>
+                    let targetUser = checkUserExists(space.users, index)
+                    return (
+                      targetUser ?
+                      (
+                      <div className={`w-36 h-44 border-2 rounded border-yellow-800 bg-red-200 px-2 py-2`}>
+                        <p className={`font-bold mb-2 ${myfont.className}`}>
+                          {targetUser.nickname}
+                        </p>
+                        <p className={`font-light text-sm mb-4 ${myfont.className}`}>
+                          {truncate(targetUser.interested_in.replaceAll(",", "、"))}
+                        </p>
+                        <div className="text-right w-full pr-1">
+                          <img className={`w-16 h-16 rounded inline`} src={`${targetUser.icon}`} />
+                        </div>
                       </div>
                     ) : (
                       <div
@@ -87,7 +93,7 @@ const Lobby = ({ spaces }) => {
                       >
                         <p className={`text-white font-bold text-md ${myfont.className}`}>空席</p>
                       </div>
-                    );
+                    ));
                   })}
                 </div>
               );
