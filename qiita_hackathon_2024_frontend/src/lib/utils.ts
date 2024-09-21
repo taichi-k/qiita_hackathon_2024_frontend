@@ -8,7 +8,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
-export const getUserProfileFromUID = async (uid: any, count = 0): Promise<object> => {
+export const getUserProfileFromUID = async (uid: any, count = 0): Promise<{ nickname: string, interested_in: string | null, twitter_id: string | null }> => {
   try {
     const response = await axios.get(`https://miyablo.sakura.ne.jp/kosugiiz/space_users/${uid}`, {
       headers: {

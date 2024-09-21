@@ -4,6 +4,7 @@ import AgoraRTC, {
   AgoraRTCProvider,
   LocalVideoTrack,
   RemoteUser,
+  UID,
   useJoin,
   useLocalCameraTrack,
   useCurrentUID,
@@ -41,7 +42,7 @@ function Videos(props: { channelName: string; AppID: string }) {
   const remoteUsers = useRemoteUsers();
   const { userId } = useContext(UserContext);
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
-  const [remoteUserProfiles, setRemoteUserProfiles] = useState<Record<string, any>>({});
+  const [remoteUserProfiles, setRemoteUserProfiles] = useState<Record<string, { nickname: string, interested_in: string | null, twitter_id: string | null }>>({});
 
   usePublish([localCameraTrack]);
   useJoin({
@@ -66,7 +67,7 @@ function Videos(props: { channelName: string; AppID: string }) {
   useEffect(() => {
     if (remoteUsers.length > 0) {
       const fetchProfiles = async () => {
-        const profiles = {} as any;
+        const profiles: Record<string, { nickname: string, interested_in: string | null, twitter_id: string | null }> = {};
         for (const user of remoteUsers) {
           const profile = await getUserProfileFromUID(user.uid);
           profiles[user.uid] = profile;
@@ -78,7 +79,7 @@ function Videos(props: { channelName: string; AppID: string }) {
   }, [remoteUsers]);
 
   // APIリクエストを送信する関数
-  const setUidToUserSpace = async (userId: any, uid: any) => {
+  const setUidToUserSpace = async (userId: string, uid: UID | undefined) => {
     console.log("============ setUidToUserSpace ============", userId, uid);
     if (!userId) {
       console.error("User ID not found");
