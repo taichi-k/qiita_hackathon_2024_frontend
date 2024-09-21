@@ -1,5 +1,4 @@
 import { Button } from "@/components/ui/button"
-import { Textarea } from "@/components/ui/textarea"
 import Link from 'next/link'
 
 export default function Index() {
@@ -9,7 +8,7 @@ export default function Index() {
       <Link href="/login">
         <Button variant="outline">ログイン</Button>
       </Link>
-      <Link href="/login">
+      <Link href="/register">
         <Button variant="secondary">新規登録</Button>
       </Link>
     </div>
