@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
 

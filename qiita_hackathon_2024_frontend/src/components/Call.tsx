@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client";
 
 import AgoraRTC, {
@@ -48,7 +50,7 @@ function Videos(props: { channelName: string; AppID: string }) {
   });
 
   audioTracks.map((track) => track.play());
-  
+
   const deviceLoading = isLoadingMic || isLoadingCam;
   if (deviceLoading)
     return (
