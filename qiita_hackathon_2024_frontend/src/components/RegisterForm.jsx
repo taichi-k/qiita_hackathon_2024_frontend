@@ -125,11 +125,13 @@ export function RegisterForm() {
           </FormControl>
           <FormMessage />
         </FormItem>
-        <img 
-          src={iconBase64} 
-          alt='input_icon' 
-          className="w-48 h-48 object-cover"
-        />
+        {
+          iconBase64&& <img 
+            src={iconBase64} 
+            alt='input_icon' 
+            className="w-48 h-48 object-cover"
+          />
+        }
 
         <FormField
           control={form.control}
