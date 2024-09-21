@@ -1,14 +1,17 @@
 import { Button } from "@/components/ui/button"
 import { Textarea } from "@/components/ui/textarea"
-
+import Link from 'next/link'
 
 export default function Index() {
   return (
     <div>
-      ここから
-      <Button variant="outline">Click me</Button>
-      <Button variant="secondary">Secondary</Button>
-      <Textarea placeholder="Type your message here." className="my_width" />
+      Open Lobby
+      <Link href="/login">
+        <Button variant="outline">ログイン</Button>
+      </Link>
+      <Link href="/login">
+        <Button variant="secondary">新規登録</Button>
+      </Link>
     </div>
   );
 }

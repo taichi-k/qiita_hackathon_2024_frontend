@@ -1,0 +1,50 @@
+[
+    {
+     "channel_id": 1,
+     "maximum": 4,
+     "users": [
+       {
+         "icon": "",
+         "nickname": "tai",
+         "interested_in": "piano,guitar",
+         "position": 1
+       }
+     ]
+    },
+    {
+        "channel_id": 2,
+        "maximum": 4,
+        "users": [
+          {
+            "icon": "",
+            "nickname": "tai",
+            "interested_in": "piano,guitar",
+            "position": 1
+          }
+        ]
+       },
+    {
+     "channel_id": 3,
+     "maximum": 6,
+     "users": [
+       {
+         "icon": "",
+         "nickname": "ninoko",
+         "interested_in": "youtube,flutter,tv",
+         "position": 4
+       }
+     ]
+    },
+    {
+        "channel_id": 4,
+        "maximum": 6,
+        "users": [
+          {
+            "icon": "",
+            "nickname": "ninoko",
+            "interested_in": "youtube,flutter,tv",
+            "position": 4
+          }
+        ]
+       }
+   ]
