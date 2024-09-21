@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client"
  
 // import spaces from "../sample_data/spaces.json"

@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/button"
 import {
   Form,
   FormControl,
-  FormDescription,
+  // FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,7 +27,7 @@ export function LoginForm() {
  
   function onSubmit(data) {
     // submit時
-    console.log("onSubmit")
+    console.log(`onSubmit: ${data}`)
     router.replace("/lobby")
   }
  

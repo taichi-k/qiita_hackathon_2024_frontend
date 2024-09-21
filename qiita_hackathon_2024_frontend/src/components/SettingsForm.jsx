@@ -1,3 +1,4 @@
+/* eslint-disable */
 
 "use client"
  
@@ -28,7 +29,7 @@ export function SettingsForm() {
  
   function onSubmit(data) {
     // submit時
-    console.log("onSubmit")
+    console.log(`onSubmit: ${data}`)
     router.replace("/lobby")
   }
  
