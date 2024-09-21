@@ -1,4 +1,4 @@
-import { Zen_Kaku_Gothic_New, Rampart_One, Zen_Maru_Gothic, Shippori_Mincho } from 'next/font/google'
+import { Zen_Maru_Gothic } from 'next/font/google'
 
 const myfont = Zen_Maru_Gothic({
   weight: ["400"],
