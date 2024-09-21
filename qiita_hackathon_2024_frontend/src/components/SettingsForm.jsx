@@ -15,6 +15,13 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/router"
+
+import { Zen_Maru_Gothic } from 'next/font/google'
+
+const myfont = Zen_Maru_Gothic({
+  weight: ["400"],
+  subsets: ["latin"]
+});
  
 export function SettingsForm() {
   const router = useRouter()
@@ -35,7 +42,7 @@ export function SettingsForm() {
  
   return (
     <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className="w-2/3 space-y-6">
+      <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${myfont.className}`}>
         <FormField
           control={form.control}
           name="email"
@@ -43,7 +50,7 @@ export function SettingsForm() {
             <FormItem>
               <FormLabel>メールアドレス</FormLabel>
               <FormControl>
-                <Input placeholder="****@****" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="****@****" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -56,7 +63,7 @@ export function SettingsForm() {
             <FormItem>
               <FormLabel>パスワード</FormLabel>
               <FormControl>
-                <Input type="password" placeholder="****" {...field} />
+                <Input className={"border border-yellow-900 shadow"} type="password" placeholder="****" {...field} />
               </FormControl>
               <FormDescription>
                 8文字以上
@@ -72,7 +79,7 @@ export function SettingsForm() {
             <FormItem>
               <FormLabel>プロフィールアイコン</FormLabel>
               <FormControl>
-                <Input type="file" placeholder="アイコンを選択" {...field} />
+                <Input  className={"border border-yellow-900 shadow text-xs leading-normal"} type="file" placeholder="アイコンを選択" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -85,7 +92,7 @@ export function SettingsForm() {
             <FormItem>
               <FormLabel>興味があること</FormLabel>
               <FormControl>
-                <Input placeholder="ピアノ,ギター" {...field} />
+                <Input className={"border border-yellow-900 shadow"} placeholder="ピアノ,ギター" {...field} />
               </FormControl>
               <FormDescription>
                 カンマ区切り
@@ -101,7 +108,7 @@ export function SettingsForm() {
             <FormItem>
               <FormLabel>SNSアカウント（X）</FormLabel>
               <FormControl>
-                <Input placeholder="XのID" {...field} />
+                <Input  className={"border border-yellow-900 shadow"} placeholder="XのID" {...field} />
               </FormControl>
               <FormDescription>
                 登録したい人だけ
@@ -110,7 +117,7 @@ export function SettingsForm() {
             </FormItem>
           )}
         />
-        <Button type="submit">更新</Button>
+        <Button className="" type="submit">更新</Button>
       </form>
     </Form>
   )
