@@ -74,7 +74,7 @@ const Lobby = ({ spaces }) => {
                     return (
                       targetUser ?
                       (
-                      <div className={`w-36 h-44 border-2 rounded border-yellow-800 bg-red-200 px-2 py-2`}>
+                      <div className={`w-36 h-44 border-2 rounded border-yellow-800 bg-red-200 px-2 py-2`} key={`${space.room_id}-${index}`}>
                         <p className={`font-bold mb-2 ${myfont.className}`}>
                           {targetUser.nickname}
                         </p>
@@ -87,9 +87,9 @@ const Lobby = ({ spaces }) => {
                       </div>
                     ) : (
                       <div
-                        key={index}
+                        key={`${space.room_id}-${index}`}
                         onClick={() => handleLinkClick(space.id, space.room_id, index)}
-                        className={`w-36 h-44 border-2 border-gray-200 rounded shadow-lg flex justify-center items-center woodBackground`}
+                        className={`w-36 h-44 border-2 border-gray-200 rounded shadow-lg flex justify-center items-center woodBackground cursor-pointer`}
                       >
                         <p className={`text-white font-bold text-md ${myfont.className}`}>空席</p>
                       </div>

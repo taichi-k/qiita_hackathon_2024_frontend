@@ -17,8 +17,7 @@ export default function UserProfile( props ) {
         <div className={`${myfont.className}`}>
             <p className={`mb-2 text-xl`}>{props.user.nickname}</p>
             <div className='mb-2'>
-                {props.user.interested_in.split(",").map((interest) => {
-                    // return <span className="mr-4 p-1 rounded bg-gray-100">
+                {props.user?.interested_in?.split(",").map((interest) => {
                     return <span className="mr-1 p-1 rounded">
                         #{interest}
                     </span>
