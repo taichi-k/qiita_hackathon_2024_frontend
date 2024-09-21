@@ -7,9 +7,6 @@ import Link from "next/link";
 import Header from "@/components/tailblocks/Header"
 
 const Lobby = ({spaces}) => {
-
-  console.log(spaces)
-
   function checkUserExists(users, position) {
     for (const user of users) {
       if (user.position == position) return user;
@@ -27,17 +24,18 @@ const Lobby = ({spaces}) => {
           </div>
           <div className="tables grid grid-cols-2 gap-24">
             {spaces.map((space) => {
-              console.log('')
-              console.log(space)
+              // console.log('')
+              // console.log(space)
               return (
                 <div className={"oneTable grid grid-cols-2 w-72"}>
                   {[...Array(space.maximum).keys()].map((index) => {
-                    console.log(index, space.users[index])
+                    // console.log(index, space.users[index])
                     let targetUser = checkUserExists(space.users, index)
                     return (
                       targetUser ?
                       <div className={`w-36 h-44 border-2 rounded border-yellow-900 bg-red-200`}>
                         <p>{targetUser.nickname}</p>
+                        <br/>
                         <p>{targetUser.interested_in}</p>
                       </div>
                       :
