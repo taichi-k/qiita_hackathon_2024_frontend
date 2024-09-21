@@ -19,7 +19,9 @@ export default function App({ Component, pageProps }: AppProps) {
 }
 
 // ルート監視を行うコンポーネント
-function AppWithRouteWatcher({ Component, pageProps }: AppProps) {
+import type { NextComponentType, NextPageContext } from 'next';
+
+function AppWithRouteWatcher({ Component, pageProps }: { Component: NextComponentType<NextPageContext>, pageProps: Record<string, unknown> }) {
   const router = useRouter();
   const { userId } = useContext(UserContext); // UserProvider から userId を取得
 
