@@ -9,6 +9,10 @@ const myfont = Zen_Maru_Gothic({
 });
 
 export default function UserProfile( props ) {
+    if (!props.user) {
+        return <div>Loading...</div>;
+    }
+
     return (
         <div className={`${myfont.className}`}>
             <p className={`mb-2 text-xl`}>{props.user.nickname}</p>

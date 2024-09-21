@@ -2,7 +2,6 @@
 
 import dynamic from 'next/dynamic'
 import { useRouter } from 'next/router'
-import { useEffect } from 'react';
 
 const Call = dynamic(() => import("@/components/Call"), { ssr: false });
 

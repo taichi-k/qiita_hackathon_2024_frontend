@@ -14,6 +14,10 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { useRouter } from "next/router"
+import axios from "axios"
+import { useContext } from "react"
+import UserContext from '../../context/user_context';
+
 
 import { Zen_Maru_Gothic } from 'next/font/google'
 
@@ -21,9 +25,11 @@ const myfont = Zen_Maru_Gothic({
   weight: ["400"],
   subsets: ["latin"]
 });
+
  
 export function LoginForm() {
-    const router = useRouter()
+  const router = useRouter()
+  const { login } = useContext(UserContext);
 
   const form = useForm({
     defaultValues: {
@@ -32,10 +38,33 @@ export function LoginForm() {
     },
   })
  
-  function onSubmit(data) {
-    // submit時
-    console.log(`onSubmit: ${data}`)
-    router.replace("/lobby")
+  async function onSubmit(data) {
+    try {
+      const formData = {
+        user: {
+          email: data.email,
+          password: data.password,
+        }
+      }
+
+      // POSTリクエストでデータを送信
+      const response = await axios.post('https://miyablo.sakura.ne.jp/kosugiiz/login', formData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      console.log(response)
+      if (response.data.status !== '200') {
+        throw new Error(response.data.message)
+      } else {
+        const login_user_id = response.data.data.user_id
+        console.log("ログイン成功:", login_user_id)
+        login(login_user_id)
+        router.replace('/lobby');
+      }
+    } catch (error) {
+      console.error("ログインエラー:", error)
+    }
   }
  
   return (

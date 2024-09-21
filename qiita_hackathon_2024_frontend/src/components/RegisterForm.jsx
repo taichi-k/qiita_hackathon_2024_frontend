@@ -35,6 +35,7 @@ export function RegisterForm() {
       password: "",
       interests: "",
       twitter: "",
+      nickname: "",
     },
   })
 
@@ -60,6 +61,7 @@ export function RegisterForm() {
           password: data.password,
           interested_in: data.interests,
           twitter_screenname: data.twitter,
+          nickname: data.nickname,
           icon: iconBase64 || '',
         }
       }
@@ -123,6 +125,25 @@ export function RegisterForm() {
           </FormControl>
           <FormMessage />
         </FormItem>
+        <img 
+          src={iconBase64} 
+          alt='input_icon' 
+          className="w-48 h-48 object-cover"
+        />
+
+        <FormField
+          control={form.control}
+          name="nickname"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>ニックネーム</FormLabel>
+              <FormControl>
+                <Input placeholder="ニックネーム" {...field} />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
 
         <FormField
           control={form.control}
