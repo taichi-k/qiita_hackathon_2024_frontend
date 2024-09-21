@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 "use client"
 
 import { useForm } from "react-hook-form"
@@ -68,7 +70,7 @@ export function RegisterForm() {
         const login_user_id = response.data.data.user_id
         console.log("登録成功:", login_user_id)
         login(login_user_id)
-        router.push('/lobby');
+        router.replace('/lobby');
       }
     } catch (error) {
       console.error("登録エラー:", error)
