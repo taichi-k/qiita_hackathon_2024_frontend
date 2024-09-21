@@ -1,5 +1,3 @@
-/* eslint-disable */
-
 "use client";
 
 import AgoraRTC, {
@@ -9,10 +7,8 @@ import AgoraRTC, {
   useJoin,
   useLocalCameraTrack,
   useCurrentUID,
-  useLocalMicrophoneTrack,
   usePublish,
   useRTCClient,
-  useRemoteAudioTracks,
   useRemoteUsers,
 } from "agora-rtc-react";
 import Link from 'next/link'
@@ -41,32 +37,28 @@ function Call(props: { channelName: string; appId: string }) {
 
 function Videos(props: { channelName: string; AppID: string }) {
   const { AppID, channelName } = props;
-  // const { isLoading: isLoadingMic, localMicrophoneTrack } = useLocalMicrophoneTrack();
   const { isLoading: isLoadingCam, localCameraTrack } = useLocalCameraTrack();
   const remoteUsers = useRemoteUsers();
-  // const { audioTracks } = useRemoteAudioTracks(remoteUsers);
   const { userId } = useContext(UserContext);
   const [currentUserProfile, setCurrentUserProfile] = useState(null);
   const [remoteUserProfiles, setRemoteUserProfiles] = useState<Record<string, any>>({});
 
-  // usePublish([localMicrophoneTrack, localCameraTrack]);
   usePublish([localCameraTrack]);
   useJoin({
     appid: AppID,
     channel: channelName,
     token: null,
   });
-  
-  const currentUID = useCurrentUID()
+
+  const currentUID = useCurrentUID();
 
   // currentUID を使って API を呼び出す
   useEffect(() => {
     if (currentUID) {
       console.log("currentUIDを使ってAPIを呼び出します:", currentUID);
       setUidToUserSpace(userId, currentUID).then((profile) => {
-        console.log("============ setCurrentUserProfile ============");
-        setCurrentUserProfile(profile);
-      }); // uidで更新し、返り値のプロフィールを取得
+        setCurrentUserProfile(profile); // プロフィールを設定
+      });
     }
   }, [currentUID]); // currentUID が変更されたときに再度呼び出される
 
@@ -104,22 +96,16 @@ function Videos(props: { channelName: string; AppID: string }) {
         }
       });
         
-      console.log(response);
-        
       if (response.data.status !== '200') {
         throw new Error(`Failed to update uid: ${response.data.message}`);
       }
 
-      return response.data;
+      return response.data.data; // プロフィールデータを返す
     } catch (error) {
       console.error(error);
     }
   };
   
-
-  // audioTracks.map((track) => track.play());
-
-  // const deviceLoading = isLoadingMic || isLoadingCam;
   const deviceLoading = isLoadingCam;
   if (deviceLoading)
     return (
@@ -130,7 +116,7 @@ function Videos(props: { channelName: string; AppID: string }) {
   return (
     <div className="flex flex-col justify-between w-full h-screen p-1">
       <div
-        className={`grid  gap-1 flex-1`}
+        className={`grid gap-1 flex-1`}
         style={{
           gridTemplateColumns:
             remoteUsers.length > 9
@@ -144,10 +130,10 @@ function Videos(props: { channelName: string; AppID: string }) {
       >
         <div className="relative">
           <LocalVideoTrack
-                track={localCameraTrack}
-                play={true}
-                className="w-full h-full absolute top-0 left-0"
-              />
+            track={localCameraTrack}
+            play={true}
+            className="w-full h-full absolute top-0 left-0"
+          />
           <div className="absolute top-4 left-4">
             {currentUserProfile ? (
               <UserProfile user={currentUserProfile}></UserProfile>
@@ -157,10 +143,10 @@ function Videos(props: { channelName: string; AppID: string }) {
           </div>
         </div>
         {remoteUsers.map((user) => (
-          <div className="relative">
+          <div key={user.uid} className="relative">
             <RemoteUser user={user} playAudio={false} className="absolute top-0 left-0" />
             <div className="absolute top-4 left-4">
-              { remoteUserProfiles[user.uid] ? (
+              {remoteUserProfiles[user.uid] ? (
                 <UserProfile user={remoteUserProfiles[user.uid]}></UserProfile>
               ) : (
                 <div>Loading profile...</div>
