@@ -17,13 +17,20 @@ export default function UserProfile( props ) {
         <div className={`${myfont.className}`}>
             <p className={`mb-2 text-xl`}>{props.user.nickname}</p>
             <div className='mb-2'>
-                {props.user?.interested_in?.split(",").map((interest) => {
-                    return <span className="mr-1 p-1 rounded">
+                {props.user?.interested_in?.split(",").map((interest, index) => {
+                    return <span className="mr-1 p-1 rounded" key={index}>
                         #{interest}
                     </span>
                 })}
             </div>
-            <p><Link target="_blank" href={`https://x.com/${props.user.twitter_id}`}>X: {props.user.twitter_id}</Link></p>
+            {props.user.twitter_id && (
+                <p>
+                    <Link target="_blank" href={`https://x.com/${props.user.twitter_id}`}>
+                    X: {props.user.twitter_id}
+                    </Link>
+                </p>
+            )}
+
         </div>
     )
 }

@@ -39,7 +39,7 @@ export default function Header() {
                     <a href="/" className={`mr-5 hover:text-gray-900 ${myfont.className}`} id="generated-id-1726902635829-9reuu9cas"></a>
                     <span
                         onClick={() => handleLogoutClick()}
-                        className={`mr-5 hover:text-gray-900 ${myfont.className}`}
+                        className={`mr-5 hover:text-gray-900 ${myfont.className} cursor-pointer`}
                         id="generated-id-1726902635829-9reuu9cas"
                     >
                         ログアウト
