@@ -105,7 +105,7 @@ const Lobby = ({ prop_spaces }) => {
                             {targetUser.nickname}
                           </p>
                           <p className={`font-light text-sm mb-4 ${myfont.className}`}>
-                            {truncate(targetUser.interested_in.replaceAll(",", "、"))}
+                            {targetUser.length > 0 ? truncate(targetUser.interested_in.replaceAll(",", "、")) : ""}
                           </p>
                           <div className="text-right w-full pr-1">
                             <img className={`w-16 h-16 rounded inline`} src={`${targetUser.icon}`} />
