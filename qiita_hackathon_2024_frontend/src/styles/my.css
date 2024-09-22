@@ -13,6 +13,12 @@
   background-size: cover;
 }
 
+.libraryBackground {
+  background-image: url("/library.png");
+  background-size: cover;
+  background-position-x: 25%;
+}
+
 .japanese_header {
   font-family: monospace;
 }
@@ -23,4 +29,18 @@
 
 .welcomeBox {
   padding-top: 42vh;
+}
+
+.top-footer {
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  height: 100px;
+  background-color: #FFFFFA;
+}
+
+@media (max-width: 640px) {
+  .top-footer {
+    height: 160px;
+  }
 }
