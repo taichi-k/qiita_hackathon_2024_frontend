@@ -19,6 +19,8 @@ import { Input } from "@/components/ui/input"
 import axios from "axios"
 import UserContext from '../../context/user_context';
 
+import { OverlaySpinner } from '@/components/OverlaySpinner';
+
 import { Zen_Maru_Gothic } from 'next/font/google'
 
 const myfont = Zen_Maru_Gothic({
@@ -28,6 +30,8 @@ const myfont = Zen_Maru_Gothic({
 
 
 export function SettingsForm() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { userId } = useContext(UserContext); // userIdをコンテキストから取得
   const router = useRouter();
   const form = useForm({
@@ -56,6 +60,7 @@ export function SettingsForm() {
 
   // ページ描画時にAPIからユーザーデータを取得して初期値を設定
   useEffect(() => {
+    setIsLoading(true)
     const fetchUserData = async () => {
       try {
         const response = await axios.get(`https://miyablo.sakura.ne.jp/kosugiiz/user/${userId}`, {
@@ -80,7 +85,9 @@ export function SettingsForm() {
         });
         // アイコンも更新
         setIconBase64(userData.icon);
+        setIsLoading(false)
       } catch (error) {
+        setIsLoading(false)
         console.error("ユーザー情報取得エラー:", error);
       }
     };
@@ -91,6 +98,8 @@ export function SettingsForm() {
   }, [userId, form]);
 
   async function onSubmit(data) {
+    setIsLoading(true)
+
     try {
       const formData = {
         user: {
@@ -114,108 +123,113 @@ export function SettingsForm() {
         throw new Error(response.data.message)
       } else {
         console.log("更新成功:")
+        setIsLoading(false)
         router.replace('/lobby');
       }
     } catch (error) {
+      setIsLoading(false)
       console.error("登録エラー:", error)
     }
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${myfont.className}`}>
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>メールアドレス</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="****@****" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>パスワード</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} type="password" placeholder="****" {...field} />
-              </FormControl>
-              <FormDescription>
-                8文字以上
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormItem>
-          <FormLabel>プロフィールアイコン</FormLabel>
-          <FormControl>
-            <Input  className={"border border-yellow-900 shadow text-xs leading-normal"} type="file" placeholder="アイコンを選択" accept='image/*' onChange={handleIconChange}  />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-        {
-          iconBase64&& <img 
-            src={iconBase64} 
-            alt='input_icon' 
-            className="w-48 h-48 object-cover"
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${myfont.className}`}>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>メールアドレス</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} placeholder="****@****" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        }
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>パスワード</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} type="password" placeholder="****" {...field} />
+                </FormControl>
+                <FormDescription>
+                  8文字以上
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormItem>
+            <FormLabel>プロフィールアイコン</FormLabel>
+            <FormControl>
+              <Input  className={"border border-yellow-900 shadow text-xs leading-normal"} type="file" placeholder="アイコンを選択" accept='image/*' onChange={handleIconChange}  />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+          {
+            iconBase64&& <img 
+              src={iconBase64} 
+              alt='input_icon' 
+              className="w-48 h-48 object-cover"
+            />
+          }
 
-        <FormField
-          control={form.control}
-          name="nickname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>ニックネーム</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="ニックネーム" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="nickname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ニックネーム</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} placeholder="ニックネーム" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="interests"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>自習室で勉強してる事</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="例: 数学,IT,音楽" {...field} />
-              </FormControl>
-              <FormDescription>
-                カンマ区切り
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="twitter"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>XのID</FormLabel>
-              <FormControl>
-                <Input  className={"border border-yellow-900 shadow"} placeholder="XのID" {...field} />
-              </FormControl>
-              <FormDescription>
-                登録したい人だけ
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="" type="submit">更新</Button>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="interests"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>自習室で勉強してる事</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} placeholder="例: 数学,IT,音楽" {...field} />
+                </FormControl>
+                <FormDescription>
+                  カンマ区切り
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="twitter"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>XのID</FormLabel>
+                <FormControl>
+                  <Input  className={"border border-yellow-900 shadow"} placeholder="XのID" {...field} />
+                </FormControl>
+                <FormDescription>
+                  登録したい人だけ
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="" type="submit">更新</Button>
+        </form>
+      </Form>
+      {isLoading && <OverlaySpinner />}
+    </>
   )
 }

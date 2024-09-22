@@ -19,6 +19,9 @@ import { Input } from "@/components/ui/input"
 import axios from "axios"
 import UserContext from '../../context/user_context';
 
+import { OverlaySpinner } from '@/components/OverlaySpinner';
+import { useState } from 'react';
+
 import { Zen_Maru_Gothic } from 'next/font/google'
 
 const myfont = Zen_Maru_Gothic({
@@ -27,6 +30,8 @@ const myfont = Zen_Maru_Gothic({
 });
 
 export function RegisterForm() {
+  const [isLoading, setIsLoading] = useState(false);
+
   const { login } = useContext(UserContext);
   const router = useRouter();
   const form = useForm({
@@ -55,6 +60,7 @@ export function RegisterForm() {
 
   async function onSubmit(data) {
     try {
+      setIsLoading(true)
       const formData = {
         user: {
           email: data.email,
@@ -73,6 +79,7 @@ export function RegisterForm() {
         }
       })
       console.log(response)
+      setIsLoading(false)
       if (response.data.status !== '200') {
         throw new Error(response.data.message)
       } else {
@@ -87,100 +94,103 @@ export function RegisterForm() {
   }
 
   return (
-    <Form {...form}>
-      <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${myfont.className}`}>
-        <FormField
-          control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>メールアドレス</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="メールアドレス" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="password"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>パスワード</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} type="password" placeholder="パスワード" {...field} />
-              </FormControl>
-              <FormDescription>
-                8文字以上
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormItem>
-          <FormLabel>プロフィールアイコン</FormLabel>
-          <FormControl>
-            <Input className={"border border-yellow-900 shadow"} type="file" accept='image/*' onChange={handleIconChange} />
-          </FormControl>
-          <FormMessage />
-        </FormItem>
-        {
-          iconBase64&& <img 
-            src={iconBase64} 
-            alt='input_icon' 
-            className="w-48 h-48 object-cover"
+    <>
+      <Form {...form}>
+        <form onSubmit={form.handleSubmit(onSubmit)} className={`space-y-6 ${myfont.className}`}>
+          <FormField
+            control={form.control}
+            name="email"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>メールアドレス</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} placeholder="メールアドレス" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
           />
-        }
+          <FormField
+            control={form.control}
+            name="password"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>パスワード</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} type="password" placeholder="パスワード" {...field} />
+                </FormControl>
+                <FormDescription>
+                  8文字以上
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormItem>
+            <FormLabel>プロフィールアイコン</FormLabel>
+            <FormControl>
+              <Input className={"border border-yellow-900 shadow"} type="file" accept='image/*' onChange={handleIconChange} />
+            </FormControl>
+            <FormMessage />
+          </FormItem>
+          {
+            iconBase64&& <img 
+              src={iconBase64} 
+              alt='input_icon' 
+              className="w-48 h-48 object-cover"
+            />
+          }
 
-        <FormField
-          control={form.control}
-          name="nickname"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>ニックネーム</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="ニックネーム" {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
+          <FormField
+            control={form.control}
+            name="nickname"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>ニックネーム</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} placeholder="ニックネーム" {...field} />
+                </FormControl>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
 
-        <FormField
-          control={form.control}
-          name="interests"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>自習室で勉強してる事</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="例: 数学,IT,音楽" {...field} />
-              </FormControl>
-              <FormDescription>
-                カンマ区切り
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
-          name="twitter"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>XのID</FormLabel>
-              <FormControl>
-                <Input className={"border border-yellow-900 shadow"} placeholder="XのID" {...field} />
-              </FormControl>
-              <FormDescription>
-                登録したい人だけ
-              </FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <Button className="font-bold" type="submit">新規登録</Button>
-      </form>
-    </Form>
+          <FormField
+            control={form.control}
+            name="interests"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>自習室で勉強してる事</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} placeholder="例: 数学,IT,音楽" {...field} />
+                </FormControl>
+                <FormDescription>
+                  カンマ区切り
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <FormField
+            control={form.control}
+            name="twitter"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>XのID</FormLabel>
+                <FormControl>
+                  <Input className={"border border-yellow-900 shadow"} placeholder="XのID" {...field} />
+                </FormControl>
+                <FormDescription>
+                  登録したい人だけ
+                </FormDescription>
+                <FormMessage />
+              </FormItem>
+            )}
+          />
+          <Button className="" type="submit">新規登録</Button>
+        </form>
+      </Form>
+      {isLoading && <OverlaySpinner />}
+    </>
   )
 }
