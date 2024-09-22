@@ -148,7 +148,7 @@ function Videos(props: { channelName: string; AppID: string }) {
         {remoteUsers.map((user) => (
           <div key={user.uid} className="relative">
             <RemoteUser user={user} playAudio={false} className="absolute top-0 left-0" />
-            <div className="absolute top-4 left-4">
+            <div className="absolute top-4 left-4 z-10">
               {remoteUserProfiles[user.uid] ? (
                 <UserProfile user={remoteUserProfiles[user.uid]}></UserProfile>
               ) : (
