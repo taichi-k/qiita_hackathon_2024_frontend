@@ -6,6 +6,7 @@ import { useForm } from "react-hook-form"
 import { useState, useContext } from "react"
 import { useRouter } from 'next/router'
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 import {
   Form,
   FormControl,
@@ -186,7 +187,12 @@ export function RegisterForm() {
               </FormItem>
             )}
           />
-          <Button className="" type="submit">新規登録</Button>
+          <div style={{display:'flex', justifyContent: 'space-between'}}>
+            <Button className="" type="submit">新規登録</Button>
+            <Link href="/login">
+              <Button variant="secondary">ログインはこちら</Button>
+            </Link>
+          </div>
         </form>
       </Form>
       {isLoading && <OverlaySpinner />}

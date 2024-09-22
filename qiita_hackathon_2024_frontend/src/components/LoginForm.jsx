@@ -3,6 +3,7 @@
 
 import { useForm } from "react-hook-form"
 import { Button } from "@/components/ui/button"
+import Link from 'next/link'
 import {
   Form,
   FormControl,
@@ -103,7 +104,12 @@ export function LoginForm() {
               </FormItem>
             )}
           />
-          <Button className="" type="submit">ログイン</Button>
+          <div style={{display:'flex', justifyContent: 'space-between'}}>
+            <Button className="" type="submit">ログイン</Button>
+            <Link href="/register">
+              <Button variant="secondary">新規登録はこちら</Button>
+            </Link>
+          </div>
         </form>
       </Form>
       {isLoading && <OverlaySpinner />}
